@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Irene Mugica</title>
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+</head>
+
+<body>
+
+<h1>Población total española por edades</h1>
+
+<div id="grafico" style="width: 900px; height: 700px;"></div>
+
+<p id="tabla"></p>
+
+<script>
+
+// Peticion a la web publica; previamente se asigna la funcion a ejecutar cuando se reciban los datos.
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+	
+		//document.getElementById("demo").innerHTML = this.responseText;
+	
+		// Convertir string Json a objeto jscript
+		var myObj = JSON.parse(this.responseText);
+	
+		// Generacion de la tabla y de la lista de datos a proporcionar al grafico (Lista arrayGrafico)
+		var arrayGrafico = [];
+		
+		var txt = "<table>"
+
+		txt += "<tr>"
+		var arrayUnit = []
+		for (x in myObj[0]) {
+			txt += "<th>" + x + "</th>"
+			arrayUnit.push(x);
+		}
+		arrayGrafico.push(arrayUnit)
+		txt += "</tr>"
+	
+		for (x = 0; x < myObj.length; x++ ) {
+			txt += "<tr>"
+			arrayUnit = []
+			for (i in myObj[x]) {
+				txt += "<td>" + myObj[x][i] + "</td>"
+				arrayUnit.push(myObj[x][i]);
+			}
+			arrayGrafico.push(arrayUnit)
+			txt += "</tr>"
+		}
+	
+		txt += "</table>"
+
+		// Asignar tabla a un elemento del DOM (parrafo "TABLA")
+		document.getElementById("tabla").innerHTML = txt + "<br>";
+      
+	  
+		// Mostrar grafico;se muestra en el elemento de DOM divisor "GRAFICO"
+		google.charts.load("current", {packages:["corechart"]});
+		google.charts.setOnLoadCallback(drawChart);
+		function drawChart() {
+			var data = google.visualization.arrayToDataTable(arrayGrafico);
+
+			var options = {
+			title: 'Poblacion total española por edades',
+			width: 1200,
+			height: 600,
+			};
+
+		var chart = new google.visualization.ColumnChart(document.getElementById('grafico'));
+		chart.draw(data, options);
+		}
+	  
+	}
+  
+};
+
+// Petición a la web
+xhttp.open("GET", "https://datosabiertos.ayto-arganda.es/dataset/68c7a951-6fc6-4561-b93a-e9425f50fe94/resource/8860d2b5-0738-4856-b989-9c324a89719d/download/poblacion-total-2017.json", true);
+
+xhttp.send();
+
+</script>
+
+</body>
+</html> 
