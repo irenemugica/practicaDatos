@@ -1,0 +1,24 @@
+
+EXPLICACIÓN
+
+A continuación se explicará el contenido del código. Una vez en el 'body', se han creado tres elementos HTML divisores o parrafos, uno que contiene directamente el texto del título, 
+otro para posteriormente insertar la gráfica y el tercero para que una vez esté creada, se inserte la tabla.
+
+En el mismo cuerpo, se introduce un script. Este escript incluirá varias cosas.  En primer lugar, se define un objeto 'XMLHttpRequest' a traves de la cual, posteriormente, realizaremos 
+la peticion a la web publica. Como primer paso, se ha asignado la función que se ejecutará una vez tengamos los datos que la web nos proporcione. Pero aún no tenemos ningún dato. Suponiendo
+que ya los tuviéramos, estos datos estarán en un string de caracteres JSON, luego se realiza un PARSE para convertir ese string JSON a objeto JScript (myObj).
+
+Este objeto JScript esta compuesto por un alista de estructuras. En cada estructura se difinen las propoiedades y los valores que se van a mostrar en el grafico y la tabla. 
+Para obtener dicha informacion, buclearemos dicha lista de estructuras. A partir de la primera fila, obtendremos los nombres de las propiedades; titulos de la tabla y de las 
+columnas del grafico. Posteriormente, se buclean todas las estructuras de la lista para obtener los valores. A medida que bucleamos la lista, se va creando el elemento HTML tabla
+y la lista de datos que poporcionaremos al grafico.
+
+Una vez tengamos la tabla y la lista de datos preparadas, se introducirán en sus respectivos divisores. Pero para este grafico, previamente tendremos que hacer una llamada a google
+ya que es de aquí de donde lo hemos cogido. Aquí, mediante 'arrayToDataTable', se preparará la forma adecuada del 'arrayGrafico' para que el grafico lo pueda interpretar. Esos datos 
+preparados los llamaremos 'data'. Éstos, junto a una estructura de estilo de gráfico, serán proporcionados al objeto grafico median la funcion 'draw'.
+
+Ahora que tenemos todas las funciones y blucles preparados, hacemos la llamada a la web para que se pueda ejecutar todo lo definido previamente cuando haya una respuesta por su parte.
+Por último, cerramos el Script.
+
+Referencias: w3schools
+Referencias gráfico: Google charts
